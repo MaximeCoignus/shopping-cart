@@ -26,7 +26,7 @@ function Total({products}) {
                 </tr>
                 <tr className="total">
                     <td className="label"> Total : </td>
-                    <td className="value">$ {total.toFixed(2)}</td>
+                    <td className="value">{subtotal > 0 ? `$ ${total.toFixed(2)}`: `$ 0.00`}</td>
                 </tr>
             </tbody>
         </table>
