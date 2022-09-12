@@ -4,9 +4,21 @@ import Total from "./Total";
 
 import items from "./data";
 
+const deviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+        return "mobile";
+    }
+    return "desktop";
+};
+
 function App() {
   const [products, setProducts] = useState(items);
   const [left, setLeft] = useState(0);
+  const [device, setDevice] = useState(deviceType());
 
   const handleCartPosition = (e) => {
     const windowWidth = window.innerWidth;
@@ -56,6 +68,20 @@ function App() {
     }))
   }
 
+  const cartContainer = () => {
+    return (
+      products.length > 0 ? (
+        <ul className="cart" style={{left: `${left}px`, width: `${products.length*200}px`}}>
+          {products.map((item) => {
+            return <Item key={item.id} item={item} modifyAndRemoveItem={modifyAndRemoveItem} increaseQty={increaseQty} decreaseQty={decreaseQty} />
+          })}
+        </ul>
+      ) : (
+        <div className="empty"> No more twinkies ! </div>
+      )
+    )
+  }
+
   return (
     <>
       <div className="header">
@@ -63,17 +89,19 @@ function App() {
         <p>"I say let the world go to hell, but I should always have my tea."</p>
         <p>― Fyodor Dostoyevsky, Notes from Underground</p>
       </div>
-      <div className="cart-container" onMouseMove={handleCartPosition}>
-        {products.length > 0 ? (
-          <ul className="cart" style={{left: `${left}px`}}>
-            {products.map((item) => {
-              return <Item item={item} modifyAndRemoveItem={modifyAndRemoveItem} increaseQty={increaseQty} decreaseQty={decreaseQty} />
-            })}
-          </ul>
+      {device === 'desktop' ?
+        (
+          <div className="cart-container" onMouseMove={handleCartPosition}>
+            {cartContainer()}
+          </div>
         ) : (
-          <div className="empty"> No more twinkies ! </div>
-        )}
-      </div>
+          <div style={{overflowX: 'auto'}}>
+            <div className="cart-container">
+              {cartContainer()}
+            </div>
+          </div>
+        )
+      }
       <Total products={products} />
       <div className="actions">
         <div className="big-button go"> Get them ! </div>

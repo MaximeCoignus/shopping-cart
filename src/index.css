@@ -55,7 +55,6 @@ body {
 .cart {
   list-style: none;
   height: 280px;
-  width: 10000px;
   cursor: grab;
   position: relative;
   left: 0;
