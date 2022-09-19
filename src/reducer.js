@@ -30,10 +30,19 @@ const reducer = (state, action) => {
         return { ...state, products: tempCart }
     }
     if (action.type === 'GET_SUBTOTAL') {
-        const subtotal = state.products.reduce((acc, curr) => {
+        let subtotal = state.products.reduce((acc, curr) => {
             return (acc + (curr.price*curr.quantity));
         },0);
-        return { ...state, subtotal };
+        let salestax = subtotal*0.05;
+        let shipping = Number(state.shipping);
+        let total = subtotal + salestax + shipping;
+
+        subtotal = subtotal.toFixed(2);
+        salestax = salestax.toFixed(2);
+        shipping = subtotal > 0 ? shipping.toFixed(2) : null;
+        total = subtotal > 0 ? total.toFixed(2) : null;
+
+        return { ...state, subtotal, salestax, shipping, total };
     }
     if (action.type === 'HANDLE_POSITION') {
         const windowWidth = window.innerWidth;

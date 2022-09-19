@@ -10,6 +10,9 @@ const initialState = {
     left: 0,
     device: null,
     subtotal: 0,
+    salestax: 0,
+    shipping: 5,
+    total: 0,
 };
 
 const AppProvider = ({ children }) => {

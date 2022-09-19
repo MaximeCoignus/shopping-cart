@@ -10,6 +10,8 @@ const SlideOutLeftDiv = styled.li`
 
 function Item({id,name,price,image,quantity,fadeOut}) {
     const { modifyAndRemoveItem, toggleAmount } = useGlobalContext();
+    
+    const total = (price*quantity).toFixed(2);
 
     const itemBody = () => {
         return (
@@ -20,7 +22,7 @@ function Item({id,name,price,image,quantity,fadeOut}) {
                     </div>
                     <div className="product-paper">
                         <div className="product-name">{name}</div>
-                        <div className="product-price">$ {(price*quantity).toFixed(2)}</div>
+                        <div className="product-price">$ {total}</div>
                     </div>
                 </div>
                 <div className="product-quantity">x{quantity}</div>
