@@ -1,14 +1,15 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components';
-import { fadeOutLeft } from 'react-animations';
+import { slideOutLeft } from 'react-animations';
+import { useGlobalContext } from './context';
 
-const FadeOutLeftAnimation = keyframes`${fadeOutLeft}`;
-const FadeOutLeftDiv = styled.li`
-    animation: .5s ${FadeOutLeftAnimation};
+const SlideOutLeftAnimation = keyframes`${slideOutLeft}`;
+const SlideOutLeftDiv = styled.li`
+    animation: .5s ${SlideOutLeftAnimation};
 `
 
-function Item({item, modifyAndRemoveItem, increaseQty, decreaseQty}) {
-    const {id,name,price,image,quantity,fadeOut} = item;
+function Item({id,name,price,image,quantity,fadeOut}) {
+    const { modifyAndRemoveItem, toggleAmount } = useGlobalContext();
 
     const itemBody = () => {
         return (
@@ -24,8 +25,8 @@ function Item({item, modifyAndRemoveItem, increaseQty, decreaseQty}) {
                 </div>
                 <div className="product-quantity">x{quantity}</div>
                 <div className="product-interactions">
-                    <div className="button plus" onClick={() => increaseQty(id)}>+</div>
-                    <div className="button minus" onClick={() => decreaseQty(id)}>-</div>
+                    <div className="button plus" onClick={() => toggleAmount(id, 'inc')}>+</div>
+                    <div className="button minus" onClick={() => toggleAmount(id, 'dec')}>-</div>
                     <div className="button del" onClick={() => modifyAndRemoveItem(id)}></div>
                 </div>
             </>
@@ -34,9 +35,9 @@ function Item({item, modifyAndRemoveItem, increaseQty, decreaseQty}) {
 
     return fadeOut ? 
         (
-            <FadeOutLeftDiv key={id} className="product">
+            <SlideOutLeftDiv key={id} className="product" style={{zIndex: -1}}>
                 {itemBody()}
-            </FadeOutLeftDiv>
+            </SlideOutLeftDiv>
         ) : 
         (
             <li key={id} className="product">

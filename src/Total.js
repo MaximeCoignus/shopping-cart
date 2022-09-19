@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react'
+import React from 'react'
+import { useGlobalContext } from './context'
 
-function Total({products}) {
-
-    const subtotal = products.reduce((acc, curr) => {
-        return (acc + (curr.price*curr.quantity));
-    },0);
+function Total() {
+    const { subtotal } = useGlobalContext();
+    
     const salestax = subtotal*0.05;
     const shipping = 5;
     const total = subtotal + salestax + shipping;
